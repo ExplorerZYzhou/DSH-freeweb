@@ -1,0 +1,19 @@
+# DSH profile 运行文件（不应提交）
+profiles/
+!.dsh/
+.env
+
+# 依赖
+node_modules/
+package-lock.json
+pnpm-lock.yaml
+pnpm-workspace.yaml
+
+# 系统/编辑器
+.DS_Store
+Thumbs.db
+*.log
+
+# IDE
+.idea/
+.vscode/

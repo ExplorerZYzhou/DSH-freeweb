@@ -1,0 +1,14 @@
+# example-cordis.patch.yml — 配置示例（复制到你的 ~/.dsh/profiles/web/cordis.patch.yml）
+#
+# 注意：这是【示例】，不必原样包含你的其他 patch 内容。
+# 若你的 cordis.patch.yml 已有内容，把这四行并入数组即可。
+
+# 覆盖 web 服务，让联网搜索走 freeweb（Parallel 免费后端）
+- id: web
+  config:
+    searchProvider: freeweb
+
+# 注册 freeweb 插件（依赖 ./freeweb-search.js 文件，须放在 profile 目录）
+- insert:
+    - id: freeweb-search
+      name: ./freeweb-search.js
