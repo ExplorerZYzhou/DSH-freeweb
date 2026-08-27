@@ -1,6 +1,5 @@
-# DSH profile 运行文件（不应提交）
+# 本地运行环境（个人 DSH 配置与密钥，不纳入版本控制）
 profiles/
-!.dsh/
 .env
 
 # 依赖
