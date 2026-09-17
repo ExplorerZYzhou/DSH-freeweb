@@ -46,7 +46,7 @@ module.exports = {
           const data = await resp.json()
           const result = data && data.result
           const content = result && Array.isArray(result.content) ? result.content : []
-          if (data.isError || content.length === 0) {
+          if ((data && data.isError) || content.length === 0) {
             const errText = content.length ? String(content[0].text).slice(0, 200) : 'no content'
             return { sources: [], truncated: false, content: 'freeweb: MCP error - ' + errText }
           }
