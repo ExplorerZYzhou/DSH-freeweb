@@ -1,0 +1,26 @@
+# DSH freeweb — 组合包（bundle）patch 层
+#
+# 由 package.json 的 dsh.bundle.patch 声明，在 profile 的 cordis.patch.yml【之前】应用。
+# 相对路径以本文件所在目录为锚点解析。
+
+# 1) 覆盖 web 服务：联网搜索走 freeweb（Parallel 免费后端）
+#
+# ⚠️ config 是【整段替换、绝不深合并】：必须同时保留 dsh-base 声明的 fetchProvider，
+#    否则会丢掉 fetch 抓取能力（退化成"自动选唯一可用"，当前无害但语义不明确）。
+#
+# ⚠️ 装上本包后，搜索侧会同时存在 deepseek-official 与 freeweb 两个可用 provider，
+#    因此这里的 searchProvider 是【必需】的显式 pin —— 否则 ctx.web 会以
+#    WEB_PROVIDER_AMBIGUOUS 拒绝执行（"multiple usable web providers are registered"）。
+- id: web
+  config:
+    searchProvider: freeweb
+    fetchProvider: http
+
+# 2) 注册 freeweb provider（相对本 patch 文件锚定）
+#
+# 插件以 `{ inject: ['web'], apply(ctx) }` 形式导出，内部用
+# ctx.web.registerSearchProvider(...) 注册；重复 id 会被 seam 以
+# WEB_DUPLICATE_PROVIDER 拒绝，插件自身捕获并只打日志，不影响启动。
+- insert:
+    - id: freeweb-search
+      name: ./freeweb-search.js

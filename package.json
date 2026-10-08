@@ -1,0 +1,38 @@
+{
+  "name": "dsh-freeweb",
+  "version": "0.2.0",
+  "description": "免费网页搜索 provider（Parallel 后端，匿名免 key，零依赖）——把 DSH 的 web_search 从按量计费切到免费搜索",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "web-search",
+    "free"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ExplorerZYzhou/DSH-freeweb.git"
+  },
+  "homepage": "https://github.com/ExplorerZYzhou/DSH-freeweb",
+  "bugs": {
+    "url": "https://github.com/ExplorerZYzhou/DSH-freeweb/issues"
+  },
+  "files": [
+    "freeweb-search.js",
+    "cordis.patch.yml",
+    "example-cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "dsh": {
+    "manifestVersion": 1,
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "dsh": ">=0.1.5",
+    "node": ">=18"
+  }
+}

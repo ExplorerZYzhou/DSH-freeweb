@@ -8,7 +8,11 @@ module.exports = {
 
     const provider = {
       id: 'freeweb',
-      // 无 key 无配置：只要 fetch 在就可用
+      // 关于 available() 为何"恒真"（这是刻意设计，不是漏写）：
+      //   · seam 约定它必须是【廉价的本地检查，且不得发起网络调用】
+      //   · 恒真的含义是"provider 已注册、可被选中"，不承诺"网络一定通"
+      //   · 真实的网络/限流问题在 search() 里以诊断文本返回（见下方各失败分支）
+      //   · 若在此处发请求探测，会违反 seam 约定，并让每次提供方选择都变慢
       available: function () {
         return typeof fetch === 'function'
       },
@@ -76,7 +80,12 @@ module.exports = {
             sources.push(s)
           }
 
-          // 硬上限 50：防止请求方传超大 maxResults 撑大 sources
+          // 结果上限的语义（容易被误读，特此写明）：
+          //   · 这里【尊重调用方】传入的 maxResults —— 传 5 就返回 5，不是"至少 10"；
+          //     未传（或传 0 这类 falsy 值）时才用默认 10
+          //   · 再兜一层 50 的硬上限，防止请求方传超大值把 sources 撑大
+          //   · ★ truncated 的权威判定在 seam 侧（capSources 会按 request.maxResults 再截一次
+          //     并置 truncated）；这里的计算是"本 provider 自己截过"的提前告知，语义与之一致
           const maxResults = Math.min(request.maxResults || 10, 50)
           return {
             sources: sources.slice(0, maxResults),

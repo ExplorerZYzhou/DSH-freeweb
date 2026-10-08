@@ -1,14 +1,27 @@
-# example-cordis.patch.yml — 配置示例（复制到你的 ~/.dsh/profiles/web/cordis.patch.yml）
+# example-cordis.patch.yml — 【手动挂载】示例
 #
-# 注意：这是【示例】，不必原样包含你的其他 patch 内容。
-# 若你的 cordis.patch.yml 已有内容，把这四行并入数组即可。
+# 什么时候用它：
+#   · 你不想用组合包（插件页 / CLI）安装，只想手工放文件 + 改 patch
+#   · 或你要把这个项目当"单文件依赖"塞进自己的 profile
+#
+# ⚠️ 用组合包方式（插件页 / CLI）安装时【不需要】本文件——那时 patch 由包内的
+#    cordis.patch.yml 提供。两种方式【不要同时使用】：会注册出两个 freeweb
+#    provider，seam 以 WEB_DUPLICATE_PROVIDER 拒绝第二个。
+#
+# ⚠️ 本文件与包内的 cordis.patch.yml 【内容保持一致】，改一处请同步另一处。
+#
+# 用法：复制下面两块到你的 ~/.dsh/profiles/web/cordis.patch.yml
+# （若你的 cordis.patch.yml 已有内容，把这两块并入数组即可；
+#   注意它是数组，元素之间用 - 开头，顶层不要写成映射）
 
 # 覆盖 web 服务，让联网搜索走 freeweb（Parallel 免费后端）
+# ⚠️ fetchProvider 必须一起写：web 行的 config 是【整段替换】，不写会丢掉 dsh-base 的 fetch provider
 - id: web
   config:
     searchProvider: freeweb
+    fetchProvider: http
 
-# 注册 freeweb 插件（依赖 ./freeweb-search.js 文件，须放在 profile 目录）
+# 注册 freeweb 插件（依赖 ./freeweb-search.js，须与该 patch 文件同目录）
 - insert:
     - id: freeweb-search
       name: ./freeweb-search.js
