@@ -1,6 +1,6 @@
 {
   "name": "dsh-freeweb",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "免费网页搜索 provider（Parallel 后端，匿名免 key，零依赖）——把 DSH 的 web_search 从按量计费切到免费搜索",
   "keywords": [
     "dsh",
